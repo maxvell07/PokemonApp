@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -45,7 +45,7 @@ fun HeaderSearch(viewModel: PokemonViewModel) {
             IconButton(onClick = {
                 viewModel.refreshPokemons()
             }) {
-                Icon(imageVector = Icons.Default.Done, contentDescription = "FILTER")
+                Icon(imageVector = Icons.Default.Refresh, contentDescription = "FILTER")
             }
         }
     }

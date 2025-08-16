@@ -5,13 +5,13 @@ import kotlinx.coroutines.flow.flow
 import malok.testtask.pokemonapp.common.Resource
 import javax.inject.Inject
 
-class GetPokemonsUseCase @Inject constructor(
+class RefreshPokemonsUseCase @Inject constructor(
     private val repository: PokemonRepository
 ) {
-    operator fun invoke(offset: Int, limit: Int): Flow<Resource<List<Pokemon>>> = flow {
+    operator fun invoke(limit: Int, offset: Int ): Flow<Resource<List<Pokemon>>> = flow {
         emit(Resource.Loading())
-        when (val result = repository.getPokemons(limit, offset)) {
 
+        when (val result = repository.getPokemonsFromNetwork(limit, offset)) {
             is Resource.Success -> {
                 val pokemons = result.data?.map { it } ?: emptyList()
                 emit(Resource.Success(pokemons))

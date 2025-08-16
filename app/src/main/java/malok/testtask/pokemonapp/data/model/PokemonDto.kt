@@ -1,5 +1,6 @@
 package malok.testtask.pokemonapp.data.model
 
+import malok.testtask.pokemonapp.data.PokemonEntity
 import malok.testtask.pokemonapp.domain.Pokemon
 import malok.testtask.pokemonapp.domain.PokemonStat
 
@@ -37,5 +38,24 @@ fun PokemonDto.toDomain(): Pokemon {
         stats = stats.map { PokemonStat(it.stat.name, it.base_stat) },
         abilities = abilities.map { it.ability.name },
         color = ""
+    )
+}
+
+fun PokemonDto.toEntity(): PokemonEntity {
+    val hp = stats.find { it.stat.name == "hp" }?.base_stat ?: 0
+    val attack = stats.find { it.stat.name == "attack" }?.base_stat ?: 0
+    val defense = stats.find { it.stat.name == "defense" }?.base_stat ?: 0
+    val typesStr = types.joinToString(", ") { it.type.name }
+
+    return PokemonEntity(
+        id = id,
+        name = name,
+        imageurl = sprites.front_default ?: "",
+        hp = hp,
+        attack = attack,
+        defense = defense,
+        height = height,
+        weight = weight,
+        types = typesStr
     )
 }
