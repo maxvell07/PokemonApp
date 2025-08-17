@@ -27,10 +27,16 @@ data class PokemonDto(
     val weight: Int
 )
 fun PokemonDto.toDomain(): Pokemon {
+    val hp = stats.find { it.stat.name == "hp" }?.base_stat ?: 0
+    val attack = stats.find { it.stat.name == "attack" }?.base_stat ?: 0
+    val defense = stats.find { it.stat.name == "defense" }?.base_stat ?: 0
     return Pokemon(
         id = id,
         name = name,
         imageUrl = sprites.front_default ?: "",
+        hp = hp,
+        attack = attack,
+        defense = defense,
         height = height,
         weight = weight,
         baseExperience = base_experience,

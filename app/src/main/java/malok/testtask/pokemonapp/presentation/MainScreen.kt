@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun MainScreen(viewModel: PokemonViewModel) {
     val state by viewModel.state.collectAsState()
-
     Scaffold(
         bottomBar = { BottomNavBar() }
     ) { innerPadding ->
@@ -25,8 +24,10 @@ fun MainScreen(viewModel: PokemonViewModel) {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            // Хедер (картинка + поиск)
+            // Хедер (картинка(refresh) + поиск)
             HeaderSearch(viewModel = viewModel)
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),

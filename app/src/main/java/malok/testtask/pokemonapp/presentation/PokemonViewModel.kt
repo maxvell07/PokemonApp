@@ -23,7 +23,6 @@ class PokemonViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(PokemonListState())
     val state: StateFlow<PokemonListState> = _state.asStateFlow()
-
     private var currentOffset = 0
     private var limit = 12
 
@@ -60,6 +59,7 @@ class PokemonViewModel @Inject constructor(
     }
 
     fun refreshPokemons() {
+        //TODO(сделать правильный refresh)
         _state.value = PokemonListState()
         refreshPokemonsUseCase(limit, currentOffset).onEach { result ->
             when (result) {
@@ -89,6 +89,29 @@ class PokemonViewModel @Inject constructor(
             }
         }
             .launchIn(viewModelScope)
+    }
+
+    fun applyFilters(sortBy: String, types: Set<String>) {
+        val currentList = _state.value.pokemons
+
+        var filtered = currentList
+        val lowerSelected = types.map { it.lowercase() }
+        filtered = filtered.filter { pokemon ->
+            pokemon.types.any { it.lowercase() in lowerSelected }
+        }
+
+
+        val sorted = when (sortBy) {
+            "NUMBER" -> filtered.sortedBy { it.id }
+            "NAME" -> filtered.sortedBy { it.name }
+            "HP" -> filtered.sortedByDescending { it.hp }
+            "ATTACK" -> filtered.sortedByDescending { it.attack }
+            "DEFENSE" -> filtered.sortedByDescending { it.defense }
+            else -> filtered
+        }
+        _state.update {
+            it.copy(pokemons = sorted)
+        }
     }
 }
 
