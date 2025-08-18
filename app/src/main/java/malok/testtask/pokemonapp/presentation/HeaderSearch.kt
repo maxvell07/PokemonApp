@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -19,7 +18,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -93,12 +91,17 @@ fun HeaderSearch(viewModel: PokemonViewModel) {
                     )
                 }
             }
-            IconButton(onClick = {
-                showSheet = true
+                    IconButton(onClick = {
+                        showSheet = true
+                    }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.filter_icon),
+                                contentDescription = "FILTER",
+                                modifier = Modifier.fillMaxSize()
+                            )
 
-            }) {
-                Icon(imageVector = Icons.Default.Refresh, contentDescription = "REFRESH")
-            }
+                    }
+
         }
     }
 }

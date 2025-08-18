@@ -94,14 +94,15 @@ class PokemonViewModel @Inject constructor(
     fun applyFilters(sortBy: String, types: Set<String>) {
         val currentList = _state.value.pokemons
 
-        var filtered = currentList
-        val lowerSelected = types.map { it.lowercase() }
-        filtered = filtered.filter { pokemon ->
-            pokemon.types.any { it.lowercase() in lowerSelected }
+        val filtered = if (types.isNotEmpty()) {
+            val lowerSelected = types.map { it.lowercase() }
+            currentList.filter { pokemon ->
+                pokemon.types.any { it.lowercase() in lowerSelected }
+            }
+        } else {
+            currentList
         }
-
-
-        val sorted = when (sortBy) {
+        val sorted = when (sortBy.uppercase()) {
             "NUMBER" -> filtered.sortedBy { it.id }
             "NAME" -> filtered.sortedBy { it.name }
             "HP" -> filtered.sortedByDescending { it.hp }
@@ -109,10 +110,10 @@ class PokemonViewModel @Inject constructor(
             "DEFENSE" -> filtered.sortedByDescending { it.defense }
             else -> filtered
         }
-        _state.update {
-            it.copy(pokemons = sorted)
-        }
+
+        _state.update { it.copy(pokemons = sorted) }
     }
+
 }
 
 data class PokemonListState(
