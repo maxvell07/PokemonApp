@@ -31,7 +31,7 @@ import androidx.compose.ui.text.TextStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HeaderSearch(viewModel: PokemonViewModel) {
+fun HeaderSearch() {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showSheet by remember { mutableStateOf(false) }
     Column {
@@ -41,9 +41,6 @@ fun HeaderSearch(viewModel: PokemonViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)
-                .clickable{
-                    viewModel.refreshPokemons()
-                }
         )
         Row(
             modifier = Modifier
@@ -85,7 +82,7 @@ fun HeaderSearch(viewModel: PokemonViewModel) {
                 ) {
                     FilterBottomSheet(
                         onApply = {sortBy, types ->
-                            viewModel.applyFilters(sortBy, types)
+//  todo                          viewModel.applyFilters(sortBy, types)
                             showSheet = false
                         }
                     )

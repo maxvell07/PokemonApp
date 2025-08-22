@@ -1,27 +1,14 @@
 package malok.testtask.pokemonapp.domain
 
+import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import malok.testtask.pokemonapp.common.Resource
 import javax.inject.Inject
 
 class GetPokemonsUseCase @Inject constructor(
     private val repository: PokemonRepository
 ) {
-    operator fun invoke(offset: Int, limit: Int): Flow<Resource<List<Pokemon>>> = flow {
-        emit(Resource.Loading())
-        when (val result = repository.getPokemons(limit, offset)) {
-
-            is Resource.Success -> {
-                val pokemons = result.data?.map { it } ?: emptyList()
-                emit(Resource.Success(pokemons))
-            }
-            is Resource.Error -> {
-                emit(Resource.Error(result.message ?: "Unknown error"))
-            }
-            is Resource.Loading -> {
-                emit(Resource.Loading())
-            }
-        }
+    operator fun invoke(pageSize: Int): Flow<PagingData<Pokemon>> {
+        return repository.getPokemonsPager(pageSize)
     }
 }
+
